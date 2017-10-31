@@ -11,7 +11,7 @@ os.environ["webdriver.ie.driver"]=iedriver
 #调用IE
 driver=webdriver.Ie(iedriver)
 #考试页面
-driver.get("http://wldx.sgcc.com.cn:8080/lms/user/topic.htm?id=6108571_8a8128a15b52c323015b7b1e26ce1a9a&usercard=44ebd5946d956b0c064a57a57ec659f7&random=1505789045000")
+driver.get("URL")
 #加载时间3秒，用来保证IE页面的脚本加载完成
 time.sleep(3)
 #网页源码并将 “_" 替换为空格。
