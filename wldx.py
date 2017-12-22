@@ -11,18 +11,20 @@ os.environ["webdriver.ie.driver"]=iedriver
 #调用IE
 driver=webdriver.Ie(iedriver)
 #考试页面
-driver.get("URL")
-#加载时间3秒，用来保证IE页面的脚本加载完成
-time.sleep(3)
-#网页源码并将 “_" 替换为空格。
-wen_ti=driver.page_source.replace("_"," ")
-#关闭IE驱动，减少占用
-driver.close()
-#正则匹配，从源码中提取问题字符串
-wenti=re.findall(r"<DIV class=TMTitle>(.+?) <INPUT",wen_ti)
+driver.get("考试页面URL")
+#加载时间30秒，用来保证IE页面的脚本加载完成
+time.sleep(5)
+#网页源码并将 “_" 替换为空格,引号替换为英文
 
-#输入excel题库文件
-data=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\11.xlsx')
+wen_ti=driver.page_source.replace(" ","").replace("“","\"").replace("”","\"")
+#print (wen_ti)
+#关闭IE驱动，减少占用
+#driver.close() 
+#正则匹配，从源码中提取问题字符串 TMTitle_1
+wenti=re.findall(r"\">(.+?)<INPUT",wen_ti)
+#print (wenti)
+#输入excel题库文件，答案格式第一列必须是问题，
+data=xlrd.open_workbook(r'答案路径')
 
 table=data.sheets()[0]
 #提取行数
@@ -33,7 +35,13 @@ result=[]
 #将每一行的内容存入dict
 for i in range(nrows):
     dataresult.append(table.row_values(i))
+#print (dataresult)
 #提取dataresult中的列表内容，并把i【0】和 wenti列表匹配
-for i in dataresult :   
-    if (i[0]) in wenti:
-        print (i)
+for i in wenti :
+    print ("************************")
+    shu_mu=0
+    if i == (dataresult[shu_mu][0]):
+        print (dataresult[shu_mu])
+        break
+    else:
+        shu_mu+=1
